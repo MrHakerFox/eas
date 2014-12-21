@@ -51,6 +51,9 @@ void MainWindow::isel( bool checked )
 
 void MainWindow::connectToEas( bool clicked )
 {
+#ifndef QT_NO_CURSOR
+    setCursor(Qt::WaitCursor);
+#endif
     if( ui->messageGroupBox->isEnabled() )
     {
         ftp->abort();
@@ -61,6 +64,7 @@ void MainWindow::connectToEas( bool clicked )
         return;
     }
 
+    ftp->abort();
     ui->messageTreeWidget->clear();
     currentPath.clear();
     isDirectory.clear();
@@ -121,7 +125,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
 #ifndef QT_NO_CURSOR
     setCursor(Qt::ArrowCursor);
 #endif
-    if (ftp->currentCommand() == QFtp::ConnectToHost)
+    if (ftp->currentCommand() == QFtp::ConnectToHost )
     {
         if (error) {
             QMessageBox::information(this, tr("EAS connecting..."),
