@@ -182,6 +182,27 @@ void MainWindow::ftpCommandFinished(int, bool error)
         addParentDir();
         ftp->list();
     }
+
+    if ( ftp->currentCommand() == QFtp::Get )
+    {
+        if (error)
+        {
+            QMessageBox::critical(this, tr("EAS Downloading"),
+                                     tr( "Can't download %1!" ).arg( file->fileName() ) );
+            file->close();
+            file->remove();
+        }
+        else
+        {
+            file->close();
+            QMessageBox::information(this, tr("EAS Downloading"),
+                                     tr( "%1 successfully downloaded!" ).arg( file->fileName() ) );
+        }
+
+
+//![8]
+//![9]
+    }
 }
 
 
@@ -303,7 +324,32 @@ void MainWindow::uploadMsg( bool clicked )
 
 void MainWindow::downloadMsg( bool clicked )
 {
+    QString fileName = ui->messageTreeWidget->currentItem()->text(0);
+//![3]
+//
+    if (QFile::exists(fileName)) {
+        QMessageBox::information(this, tr("EAS Downloading"),
+                                 tr("There already exists a file called %1 in "
+                                    "the current directory.")
+                                 .arg(fileName));
+        return;
+    }
 
+//![4]
+    file = new QFile(fileName);
+    if (!file->open(QIODevice::WriteOnly)) {
+        QMessageBox::information(this, tr("EAS Saving"),
+                                 tr("Unable to save the file %1: %2.")
+                                 .arg(fileName).arg(file->errorString()));
+        delete file;
+        return;
+    }
+
+    ftp->get(ui->messageTreeWidget->currentItem()->text(0), file);
+
+    //progressDialog->setLabelText(tr("Downloading %1...").arg(fileName));
+    //downloadButton->setEnabled(false);
+    //progressDialog->exec();
 }
 
 

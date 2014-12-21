@@ -49,6 +49,7 @@ private:
     QFtp* ftp;
     QHash<QString, bool> isDirectory;
     QString currentPath;
+    QFile* file;
 
     void addParentDir();
 };
