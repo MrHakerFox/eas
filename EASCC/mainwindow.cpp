@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ftp = new QFtp();
     connect(ftp, SIGNAL(commandFinished(int,bool)), this, SLOT(ftpCommandFinished(int,bool)));
     connect(ftp, SIGNAL(listInfo(QUrlInfo)), this, SLOT(addToList(QUrlInfo)));
+
+    tcp = new QTcpSocket;
 }
 
 MainWindow::~MainWindow()
@@ -65,12 +67,15 @@ void MainWindow::connectToEas( bool clicked )
     }
 
     ftp->abort();
+    tcp->abort();;
     ui->messageTreeWidget->clear();
     currentPath.clear();
     isDirectory.clear();
 
     ftp->connectToHost( ui->ethernetAddrLineEdit->text() );
     ftp->login();
+
+    tcp->connectToHost( ui->ethernetAddrLineEdit->text(), 1277 );
 
     return;
 
@@ -269,6 +274,12 @@ void MainWindow::processItem(QTreeWidgetItem *item, int column)
         setCursor(Qt::WaitCursor);
 #endif
         return;
+    }
+    else
+    {
+        QMessageBox::information( this, "", currentPath + "/" + name );
+        QString buffer = "mplayer " + currentPath + "/" + name + " > /dev/null";
+        tcp->write( buffer.toStdString().c_str() );
     }
 }
 

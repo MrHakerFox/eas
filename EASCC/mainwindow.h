@@ -50,6 +50,7 @@ private:
     QHash<QString, bool> isDirectory;
     QString currentPath;
     QFile* file;
+    QTcpSocket* tcp;
 
     void addParentDir();
 };
