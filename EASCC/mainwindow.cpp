@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QDialog>
 #include <QInputDialog>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -339,23 +340,30 @@ void MainWindow::uploadMsg( bool clicked )
 
 void MainWindow::downloadMsg( bool clicked )
 {
-    QString fileName = ui->messageTreeWidget->currentItem()->text(0);
+    QString filename = ui->messageTreeWidget->currentItem()->text(0);
 //![3]
+//!
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                 "/home",
+                                                 QFileDialog::ShowDirsOnly
+                                                 | QFileDialog::DontResolveSymlinks);
+
+    QString fullFileName = dir + "\\" + filename;
 //
-    if (QFile::exists(fileName)) {
+    if (QFile::exists(fullFileName)) {
         QMessageBox::information(this, tr("EAS Downloading"),
                                  tr("There already exists a file called %1 in "
                                     "the current directory.")
-                                 .arg(fileName));
+                                 .arg(fullFileName));
         return;
     }
 
 //![4]
-    file = new QFile(fileName);
+    file = new QFile( fullFileName);
     if (!file->open(QIODevice::WriteOnly)) {
         QMessageBox::information(this, tr("EAS Saving"),
                                  tr("Unable to save the file %1: %2.")
-                                 .arg(fileName).arg(file->errorString()));
+                                 .arg(fullFileName).arg(file->errorString()));
         delete file;
         return;
     }
