@@ -131,6 +131,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
 #ifndef QT_NO_CURSOR
     setCursor(Qt::ArrowCursor);
 #endif
+    ui->messageGroupBox->setEnabled( true );
     if (ftp->currentCommand() == QFtp::ConnectToHost )
     {
         if (error) {
@@ -297,6 +298,7 @@ void MainWindow::processItem(QTreeWidgetItem *item, int column)
     else
     {
         //QMessageBox::information( this, "", currentPath + "/" + name );
+        //ui->messageTreeWidget->setEnabled( false );
         QString buffer = "mplayer " + currentPath + "/" + name + " > /dev/null";
         tcp->write( buffer.toStdString().c_str() );
     }
@@ -317,6 +319,7 @@ void MainWindow::renameMsg( bool clicked )
                                                  currentFile, &ok);
         if (ok && !text.isEmpty())
         {
+            ui->messageGroupBox->setEnabled( false );
             ftp->rename( currentPath + "/" + currentFile, currentPath + "/" + text );
         }
     }
@@ -335,6 +338,7 @@ void MainWindow::deleteMsg( bool clicked )
         if( QMessageBox::question( this, tr("EAS removing message"),
                                  tr( "Do you really want to remove" ) + currentPath + "/" + current->text( 0 ) + " ?", QMessageBox::Yes | QMessageBox::No ) ==QMessageBox::Yes )
         {
+            ui->messageGroupBox->setEnabled( false );
             if( !isDirectory.value(currentFile) )
             {
                 ftp->remove( currentPath + "/" + current->text( 0 ) );
@@ -372,6 +376,7 @@ void MainWindow::uploadMsg( bool clicked )
 
     //QMessageBox::information( this, "", file->f );
 
+    ui->messageGroupBox->setEnabled( false );
     QFileInfo fname( file->fileName() );
     ftp->put( file, fname.fileName() );
 }
@@ -408,6 +413,7 @@ void MainWindow::downloadMsg( bool clicked )
         return;
     }
 
+    ui->messageGroupBox->setEnabled( false );
     ftp->get(ui->messageTreeWidget->currentItem()->text(0), file);
 
     //progressDialog->setLabelText(tr("Downloading %1...").arg(fileName));
@@ -425,6 +431,7 @@ void MainWindow::newFolder( bool clicked )
                                              "New Folder", &ok);
     if (ok && !text.isEmpty())
     {
+        ui->messageGroupBox->setEnabled( false );
         ftp->mkdir( currentPath + "/" + text );
     }
 }
