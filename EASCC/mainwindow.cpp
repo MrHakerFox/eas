@@ -213,6 +213,24 @@ void MainWindow::ftpCommandFinished(int, bool error)
 //![8]
 //![9]
     }
+
+    if( ftp->currentCommand() == QFtp::Put )
+    {
+        if (error)
+        {
+            QMessageBox::critical(this, tr("EAS Uploading"),
+                                     tr( "Can't upload %1!" ).arg( file->fileName() ) );
+            file->close();
+        }
+        else
+        {
+            file->close();
+            QMessageBox::information(this, tr("EAS Uploading"),
+                                     tr( "%1 successfully uploaded!" ).arg( file->fileName() ) );
+            addParentDir();
+            ftp->list();
+        }
+    }
 }
 
 
@@ -278,7 +296,7 @@ void MainWindow::processItem(QTreeWidgetItem *item, int column)
     }
     else
     {
-        QMessageBox::information( this, "", currentPath + "/" + name );
+        //QMessageBox::information( this, "", currentPath + "/" + name );
         QString buffer = "mplayer " + currentPath + "/" + name + " > /dev/null";
         tcp->write( buffer.toStdString().c_str() );
     }
@@ -333,7 +351,29 @@ void MainWindow::deleteMsg( bool clicked )
 
 void MainWindow::uploadMsg( bool clicked )
 {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Message to be Downloaded"),
+                                                     "",
+                                                     tr("Files (*.mp3 *.wav)"));
+    if( fileName.isEmpty() )
+    {
+        return;
+    }
 
+    //QMessageBox::information( this, "", fileName );
+
+    file = new QFile( fileName );
+    if (!file->open(QIODevice::ReadOnly)) {
+        QMessageBox::information(this, tr("EAS Uploading"),
+                                 tr("Unable to upload file %1: %2.")
+                                 .arg(fileName).arg(file->errorString()));
+        delete file;
+        return;
+    }
+
+    //QMessageBox::information( this, "", file->f );
+
+    QFileInfo fname( file->fileName() );
+    ftp->put( file, fname.fileName() );
 }
 
 
