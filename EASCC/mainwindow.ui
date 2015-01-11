@@ -16,8 +16,17 @@
     <height>600</height>
    </size>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonIconOnly</enum>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGroupBox" name="messageGroupBox">
@@ -35,18 +44,70 @@
     <property name="title">
      <string>Message Control</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>11</x>
-       <y>21</y>
+       <x>12</x>
+       <y>22</y>
        <width>511</width>
        <height>411</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
+      <item row="1" column="2">
+       <widget class="QPushButton" name="renamePushButton">
+        <property name="text">
+         <string>Rename</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="uploadPushButton">
+        <property name="text">
+         <string>Upload</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="downloadPushButton">
+        <property name="text">
+         <string>Download</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="descriptionPushButton">
+        <property name="text">
+         <string>Description</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QPushButton" name="newFolderPushButton">
+        <property name="text">
+         <string>New Folder</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="eventPushButton">
+        <property name="text">
+         <string>Event</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QPushButton" name="removePushButton">
+        <property name="text">
+         <string>Remove</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0" colspan="5">
        <widget class="QTreeWidget" name="messageTreeWidget">
+        <property name="contextMenuPolicy">
+         <enum>Qt::NoContextMenu</enum>
+        </property>
         <column>
          <property name="text">
           <string>File Name</string>
@@ -72,41 +133,6 @@
           <string>Duration</string>
          </property>
         </column>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="uploadPushButton">
-        <property name="text">
-         <string>Upload</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="downloadPushButton">
-        <property name="text">
-         <string>Download</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QPushButton" name="renamePushButton">
-        <property name="text">
-         <string>Rename</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QPushButton" name="removePushButton">
-        <property name="text">
-         <string>Remove</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4">
-       <widget class="QPushButton" name="newFolderPushButton">
-        <property name="text">
-         <string>New Folder</string>
-        </property>
        </widget>
       </item>
      </layout>
@@ -372,7 +398,7 @@
     <widget class="QPushButton" name="connectPushButton">
      <property name="geometry">
       <rect>
-       <x>270</x>
+       <x>274</x>
        <y>67</y>
        <width>75</width>
        <height>23</height>
@@ -381,6 +407,51 @@
      <property name="text">
       <string>Connect</string>
      </property>
+    </widget>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>10</y>
+       <width>211</width>
+       <height>80</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>EAS Date/Time</string>
+     </property>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>20</y>
+        <width>201</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0" colspan="2">
+        <widget class="QDateTimeEdit" name="dateTimeEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="easGetTimePushButton">
+         <property name="text">
+          <string>Get</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="easSyncTimePushButton">
+         <property name="text">
+          <string>Sync</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -393,14 +464,14 @@
      <height>18</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuDfasdf">
+   <widget class="QMenu" name="fileMenu">
     <property name="title">
      <string>&amp;File</string>
     </property>
     <addaction name="action_Connect"/>
     <addaction name="action_Quit"/>
    </widget>
-   <widget class="QMenu" name="menu_Messages">
+   <widget class="QMenu" name="messageMenu">
     <property name="title">
      <string>&amp;Messages</string>
     </property>
@@ -408,25 +479,29 @@
     <addaction name="action_Download"/>
     <addaction name="action_Rename"/>
     <addaction name="actionRe_move"/>
+    <addaction name="actionNew_Folder"/>
     <addaction name="action_Play"/>
+    <addaction name="separator"/>
+    <addaction name="actionDescription"/>
+    <addaction name="actionEvent"/>
    </widget>
-   <widget class="QMenu" name="menuIO_Board">
+   <widget class="QMenu" name="ioBoardMenu">
     <property name="title">
      <string>IO &amp;Board</string>
     </property>
     <addaction name="action_DO"/>
    </widget>
-   <widget class="QMenu" name="menu_Help">
+   <widget class="QMenu" name="helpMenu">
     <property name="title">
      <string>&amp;Help</string>
     </property>
     <addaction name="separator"/>
     <addaction name="action_About"/>
    </widget>
-   <addaction name="menuDfasdf"/>
-   <addaction name="menu_Messages"/>
-   <addaction name="menuIO_Board"/>
-   <addaction name="menu_Help"/>
+   <addaction name="fileMenu"/>
+   <addaction name="messageMenu"/>
+   <addaction name="ioBoardMenu"/>
+   <addaction name="helpMenu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -448,31 +523,49 @@
    </property>
   </action>
   <action name="action_Upload">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Upload</string>
    </property>
   </action>
   <action name="action_Download">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Download</string>
    </property>
   </action>
   <action name="action_Rename">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Rename</string>
    </property>
   </action>
   <action name="actionRe_move">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Re&amp;move</string>
    </property>
   </action>
   <action name="action_Play">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Play</string>
    </property>
   </action>
   <action name="action_DO">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;DO</string>
    </property>
@@ -480,6 +573,30 @@
   <action name="action_About">
    <property name="text">
     <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="actionNew_Folder">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>New Folder</string>
+   </property>
+  </action>
+  <action name="actionDescription">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Description</string>
+   </property>
+  </action>
+  <action name="actionEvent">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Event</string>
    </property>
   </action>
  </widget>

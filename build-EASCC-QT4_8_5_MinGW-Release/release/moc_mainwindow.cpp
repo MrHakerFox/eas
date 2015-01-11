@@ -22,7 +22,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      14,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -40,6 +40,10 @@ static const uint qt_meta_data_MainWindow[] = {
      209,   31,   11,   11, 0x08,
      225,   31,   11,   11, 0x08,
      243,   31,   11,   11, 0x08,
+     267,  259,   11,   11, 0x08,
+     288,   31,   11,   11, 0x08,
+     303,   31,   11,   11, 0x08,
+     320,   31,   11,   11, 0x08,
 
        0        // eod
 };
@@ -52,7 +56,9 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "processItem(QTreeWidgetItem*,int)\0"
     "renameMsg(bool)\0deleteMsg(bool)\0"
     "uploadMsg(bool)\0downloadMsg(bool)\0"
-    "newFolder(bool)\0"
+    "newFolder(bool)\0blicked\0descriptionMsg(bool)\0"
+    "eventMsg(bool)\0easGetTime(bool)\0"
+    "easSyncTime(bool)\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -71,6 +77,10 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 7: _t->uploadMsg((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 8: _t->downloadMsg((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 9: _t->newFolder((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 10: _t->descriptionMsg((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 11: _t->eventMsg((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 12: _t->easGetTime((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 13: _t->easSyncTime((*reinterpret_cast< bool(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -108,9 +118,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 14;
     }
     return _id;
 }

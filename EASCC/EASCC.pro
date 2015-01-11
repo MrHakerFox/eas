@@ -14,12 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    cr/easCore.cpp
+    cr/easCore.cpp \
+    fmsgeventdialog.cpp
 
 HEADERS  += mainwindow.h \
-    cr/easCore.hpp
+    cr/easCore.hpp \
+    fmsgeventdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    fmsgeventdialog.ui
 
 RESOURCES += \
     eas.qrc

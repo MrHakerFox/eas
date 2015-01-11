@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QtNetwork>
+#include <fmsgeventdialog.h>
 
 QT_BEGIN_NAMESPACE
 class QDialogButtonBox;
@@ -37,6 +38,10 @@ private slots:
     void uploadMsg( bool clicked );
     void downloadMsg( bool clicked );
     void newFolder( bool clicked );
+    void descriptionMsg( bool blicked );
+    void eventMsg( bool clicked );
+    void easGetTime( bool clicked );
+    void easSyncTime( bool clicked );
 
 public:
     MainWindow(QWidget *parent = 0);

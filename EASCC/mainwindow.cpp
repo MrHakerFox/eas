@@ -12,23 +12,33 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setWindowFlags(windowFlags() ^ Qt::WindowMaximizeButtonHint);
+
     setWindowTitle(tr("EAS Control Center"));
 
     //connect( ui->connectPushButton, SIGNAL( clicked( bool ) ), this, SLOT( interfaceSelect( bool ) ) );
     connect( ui->rs485RadioButton, SIGNAL( toggled( bool ) ), this, SLOT( isel( bool ) ) );
     connect( ui->ethernetRadioButton, SIGNAL( toggled( bool ) ), this, SLOT( isel( bool ) ) );
     connect( ui->connectPushButton, SIGNAL( clicked( bool ) ), this, SLOT( connectToEas( bool ) ) );
+    connect( ui->action_Connect, SIGNAL( triggered( bool ) ), this, SLOT( connectToEas( bool ) ) );
 
     connect( ui->uploadPushButton, SIGNAL( clicked( bool ) ), this, SLOT( uploadMsg( bool ) ) );
     connect( ui->downloadPushButton, SIGNAL( clicked( bool ) ), this, SLOT( downloadMsg( bool ) ) );
     connect( ui->renamePushButton, SIGNAL( clicked( bool ) ), this, SLOT( renameMsg( bool ) ) );
     connect( ui->removePushButton, SIGNAL( clicked( bool ) ), this, SLOT( deleteMsg( bool ) ) );
     connect( ui->newFolderPushButton, SIGNAL( clicked( bool ) ), this, SLOT( newFolder( bool ) ) );
+    connect( ui->descriptionPushButton, SIGNAL( clicked( bool ) ), this, SLOT( descriptionMsg( bool ) ) );
+    connect( ui->eventPushButton, SIGNAL( clicked( bool ) ), this, SLOT( eventMsg( bool ) ) );
+
+    connect( ui->easGetTimePushButton, SIGNAL( clicked( bool ) ), this, SLOT( easGetTime( bool ) ) );
+    connect( ui->easSyncTimePushButton, SIGNAL( clicked( bool ) ), this, SLOT( easSyncTime( bool ) ) );
 
     connect( ui->messageTreeWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
             this, SLOT(processItem(QTreeWidgetItem*,int)));
    // connect( ui->messageTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
    //         this, SLOT(enableDownloadButton()));
+
+    connect( ui->action_Quit, SIGNAL( triggered( bool )), this, SLOT( close() ) );
 
     ftp = new QFtp();
     connect(ftp, SIGNAL(commandFinished(int,bool)), this, SLOT(ftpCommandFinished(int,bool)));
@@ -63,6 +73,7 @@ void MainWindow::connectToEas( bool clicked )
         ftp->close();
         ui->connMethodGroupBox->setEnabled( true );
         ui->connectPushButton->setText( tr( "Connect" ) );
+        ui->action_Connect->setText( tr( "Connect" ) );
         ui->messageGroupBox->setEnabled( false );
         return;
     }
@@ -114,6 +125,7 @@ void MainWindow::connectToEas( bool clicked )
     {
         ui->connMethodGroupBox->setEnabled( false );
         ui->connectPushButton->setText( tr( "Disconnect" ) );
+        ui->action_Connect->setText( tr( "Disconnect" ) );
         ui->messageGroupBox->setEnabled( true );
 
     }
@@ -121,6 +133,7 @@ void MainWindow::connectToEas( bool clicked )
     {
         ui->connMethodGroupBox->setEnabled( true );
         ui->connectPushButton->setText( tr( "Connect" ) );
+        ui->action_Connect->setText( tr( "Connect" ) );
         ui->messageGroupBox->setEnabled( false );
     }
 }
@@ -447,5 +460,34 @@ void MainWindow::addParentDir()
         tmp->setText(0, ".." );
         ui->messageTreeWidget->addTopLevelItem(tmp);
     }
+}
+
+
+
+void MainWindow::descriptionMsg( bool blicked )
+{
+}
+
+
+
+void MainWindow::eventMsg( bool clicked )
+{
+
+}
+
+
+
+void MainWindow::easGetTime( bool clicked )
+{
+    FMsgEventDialog* dlg = new FMsgEventDialog;
+    dlg->exec();
+    delete dlg;
+}
+
+
+
+void MainWindow::easSyncTime( bool clicked )
+{
+
 }
 
