@@ -75,6 +75,7 @@ void MainWindow::connectToEas( bool clicked )
         ui->connectPushButton->setText( tr( "Connect" ) );
         ui->action_Connect->setText( tr( "Connect" ) );
         ui->messageGroupBox->setEnabled( false );
+        ui->easDateTimeGroupBox->setEnabled( false );
         return;
     }
 
@@ -159,8 +160,11 @@ void MainWindow::ftpCommandFinished(int, bool error)
             return;
         }
         ui->connMethodGroupBox->setEnabled( false );
+        ui->easDateTimeGroupBox->setEnabled( true );
         ui->connectPushButton->setText( tr( "Disconnect" ) );
         ui->messageGroupBox->setEnabled( true );
+
+        easGetTime( false );
         return;
     }
 
@@ -484,9 +488,9 @@ void MainWindow::eventMsg( bool clicked )
 
 void MainWindow::easGetTime( bool clicked )
 {
-    FMsgEventDialog* dlg = new FMsgEventDialog;
-    dlg->exec();
-    delete dlg;
+//    FMsgEventDialog* dlg = new FMsgEventDialog;
+  //  dlg->exec();
+    //delete dlg;
 }
 
 

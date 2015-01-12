@@ -87,7 +87,7 @@ public:
     QRadioButton *rs485RadioButton;
     QLineEdit *rs485AddrLineEdit;
     QPushButton *connectPushButton;
-    QGroupBox *groupBox;
+    QGroupBox *easDateTimeGroupBox;
     QWidget *layoutWidget4;
     QGridLayout *gridLayout_4;
     QDateTimeEdit *dateTimeEdit;
@@ -330,11 +330,11 @@ public:
         connectPushButton = new QPushButton(connectGroupBox);
         connectPushButton->setObjectName(QString::fromUtf8("connectPushButton"));
         connectPushButton->setGeometry(QRect(274, 67, 75, 23));
-        groupBox = new QGroupBox(connectGroupBox);
-        groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setEnabled(true);
-        groupBox->setGeometry(QRect(360, 10, 211, 80));
-        layoutWidget4 = new QWidget(groupBox);
+        easDateTimeGroupBox = new QGroupBox(connectGroupBox);
+        easDateTimeGroupBox->setObjectName(QString::fromUtf8("easDateTimeGroupBox"));
+        easDateTimeGroupBox->setEnabled(false);
+        easDateTimeGroupBox->setGeometry(QRect(360, 10, 211, 80));
+        layoutWidget4 = new QWidget(easDateTimeGroupBox);
         layoutWidget4->setObjectName(QString::fromUtf8("layoutWidget4"));
         layoutWidget4->setGeometry(QRect(5, 20, 201, 51));
         gridLayout_4 = new QGridLayout(layoutWidget4);
@@ -449,7 +449,7 @@ public:
         ethernetAddrLineEdit->setText(QApplication::translate("MainWindow", "192.168.1.150", 0, QApplication::UnicodeUTF8));
         rs485RadioButton->setText(QApplication::translate("MainWindow", "RS-485", 0, QApplication::UnicodeUTF8));
         connectPushButton->setText(QApplication::translate("MainWindow", "Connect", 0, QApplication::UnicodeUTF8));
-        groupBox->setTitle(QApplication::translate("MainWindow", "EAS Date/Time", 0, QApplication::UnicodeUTF8));
+        easDateTimeGroupBox->setTitle(QApplication::translate("MainWindow", "EAS Date/Time", 0, QApplication::UnicodeUTF8));
         easGetTimePushButton->setText(QApplication::translate("MainWindow", "Get", 0, QApplication::UnicodeUTF8));
         easSyncTimePushButton->setText(QApplication::translate("MainWindow", "Sync", 0, QApplication::UnicodeUTF8));
         fileMenu->setTitle(QApplication::translate("MainWindow", "&File", 0, QApplication::UnicodeUTF8));
