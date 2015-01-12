@@ -144,7 +144,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
 #ifndef QT_NO_CURSOR
     setCursor(Qt::ArrowCursor);
 #endif
-    ui->messageGroupBox->setEnabled( true );
+
     if (ftp->currentCommand() == QFtp::ConnectToHost )
     {
         if (error) {
@@ -171,6 +171,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
 
     if( ftp->currentCommand() == QFtp::Mkdir )
     {
+        ui->messageGroupBox->setEnabled( true );
         if( error )
         {
             QMessageBox::information(this, tr("EAS new folder"),
@@ -183,6 +184,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
 
     if( ftp->currentCommand() == QFtp::Remove || ftp->currentCommand() == QFtp::Rmdir )
     {
+        ui->messageGroupBox->setEnabled( true );
         if( error )
         {
             QMessageBox::information(this, tr("EAS removing message"),
@@ -196,6 +198,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
 
     if( ftp->currentCommand() == QFtp::Rename )
     {
+        ui->messageGroupBox->setEnabled( true );
         if( error )
         {
             QMessageBox::information(this, tr("EAS rename"),
@@ -209,6 +212,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
 
     if ( ftp->currentCommand() == QFtp::Get )
     {
+        ui->messageGroupBox->setEnabled( true );
         if (error)
         {
             QMessageBox::critical(this, tr("EAS Downloading"),
@@ -230,6 +234,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
 
     if( ftp->currentCommand() == QFtp::Put )
     {
+        ui->messageGroupBox->setEnabled( true );
         if (error)
         {
             QMessageBox::critical(this, tr("EAS Uploading"),
@@ -312,7 +317,7 @@ void MainWindow::processItem(QTreeWidgetItem *item, int column)
     {
         //QMessageBox::information( this, "", currentPath + "/" + name );
         //ui->messageTreeWidget->setEnabled( false );
-        QString buffer = "mplayer " + currentPath + "/" + name + " > /dev/null";
+        QString buffer = "CMD_PLAY" + currentPath + "/" + name + "CMD_END";
         tcp->write( buffer.toStdString().c_str() );
     }
 }
