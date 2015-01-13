@@ -497,6 +497,13 @@ void MainWindow::easGetTime( bool clicked )
 
 void MainWindow::easSyncTime( bool clicked )
 {
+    QDate date = QDate::currentDate();
+    QTime time = QTime::currentTime();
 
+    QString dateString = QString( "%1-%2-%3" ).arg( date.year() ).arg( date.month() ).arg( date.day() );
+    QString timeString = QString( "%1:%2:%3" ).arg( time.hour() ).arg( time.minute() ).arg( time.second() );
+
+    QString buffer = "CMD_SETTIME" + dateString + " " + timeString + "CMD_END";
+    tcp->write( buffer.toStdString().c_str() );
 }
 
