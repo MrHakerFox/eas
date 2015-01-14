@@ -42,6 +42,7 @@ private slots:
     void eventMsg( bool clicked );
     void easGetTime( bool clicked );
     void easSyncTime( bool clicked );
+    void tcpReadyRead();
 
 public:
     MainWindow(QWidget *parent = 0);

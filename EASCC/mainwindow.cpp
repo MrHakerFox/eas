@@ -45,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ftp, SIGNAL(listInfo(QUrlInfo)), this, SLOT(addToList(QUrlInfo)));
 
     tcp = new QTcpSocket;
+    connect( tcp, SIGNAL( readyRead() ), this, SLOT( tcpReadyRead() ) );
 }
 
 MainWindow::~MainWindow()
@@ -505,5 +506,18 @@ void MainWindow::easSyncTime( bool clicked )
 
     QString buffer = "CMD_SETTIME" + dateString + " " + timeString + "CMD_END";
     tcp->write( buffer.toStdString().c_str() );
+}
+
+
+
+void MainWindow::tcpReadyRead()
+{
+    char* readSocketBuffer = new char[ 32768 ];
+
+    while( !tcp->bytesAvailable() );
+
+    tcp->read( readSocketBuffer, 32768 );
+
+    QMessageBox::information( this, "Data read", readSocketBuffer, QMessageBox::Ok );
 }
 
