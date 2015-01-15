@@ -165,7 +165,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
         ui->connectPushButton->setText( tr( "Disconnect" ) );
         ui->messageGroupBox->setEnabled( true );
 
-        easGetTime( false );
+        //easGetTime( false );
         return;
     }
 
@@ -489,6 +489,15 @@ void MainWindow::eventMsg( bool clicked )
 
 void MainWindow::easGetTime( bool clicked )
 {
+    QDate date = QDate::currentDate();
+    QTime time = QTime::currentTime();
+
+    //QString dateString = QString( "%1-%2-%3" ).arg( date.year() ).arg( date.month() ).arg( date.day() );
+    //QString timeString = QString( "%1:%2:%3" ).arg( time.hour() ).arg( time.minute() ).arg( time.second() );
+
+    QString buffer = "CMD_GETTIMECMD_END";
+    tcp->write( buffer.toStdString().c_str() );
+
 //    FMsgEventDialog* dlg = new FMsgEventDialog;
   //  dlg->exec();
     //delete dlg;
