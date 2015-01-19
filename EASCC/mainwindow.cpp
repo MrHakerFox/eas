@@ -35,8 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect( ui->messageTreeWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
             this, SLOT(processItem(QTreeWidgetItem*,int)));
-   // connect( ui->messageTreeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
-   //         this, SLOT(enableDownloadButton()));
+    connect( ui->messageTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
+            this, SLOT(itemClicked( QTreeWidgetItem*,int )));
 
     connect( ui->action_Quit, SIGNAL( triggered( bool )), this, SLOT( close() ) );
 
@@ -165,13 +165,19 @@ void MainWindow::ftpCommandFinished(int, bool error)
         ui->connectPushButton->setText( tr( "Disconnect" ) );
         ui->messageGroupBox->setEnabled( true );
 
-        //easGetTime( false );
+        easGetTime( false );
+
         return;
     }
 
     if(ftp->currentCommand() == QFtp::Login)
     {
         ftp->list();
+
+        //if( ui->messageTreeWidget->ite)
+        //QModelIndex ind( 0, 0 );
+        //ui->messageTreeWidget->setCurrentIndex( );
+       // ui->eventPushButton->setEnabled( ui->messageTreeWidget->currentItem()->text( 0 ) != ".." && !isDirectory.value( ui->messageTreeWidget->currentItem()->text( 0 ) ) );
     }
 
     if( ftp->currentCommand() == QFtp::Mkdir )
@@ -322,7 +328,10 @@ void MainWindow::processItem(QTreeWidgetItem *item, int column)
     {
         //QMessageBox::information( this, "", currentPath + "/" + name );
         //ui->messageTreeWidget->setEnabled( false );
+        ui->messageGroupBox->setEnabled( false );
         QString buffer = "CMD_PLAY" + currentPath + "/" + name + "CMD_END";
+        lastSentCmd = buffer;
+        setCursor( Qt::WaitCursor );
         tcp->write( buffer.toStdString().c_str() );
     }
 }
@@ -482,7 +491,9 @@ void MainWindow::descriptionMsg( bool blicked )
 
 void MainWindow::eventMsg( bool clicked )
 {
-
+    FMsgEventDialog* dlg = new FMsgEventDialog;
+    dlg->exec();
+    delete dlg;
 }
 
 
@@ -500,9 +511,7 @@ void MainWindow::easGetTime( bool clicked )
 
     lastSentCmd = buffer;
 
-//    FMsgEventDialog* dlg = new FMsgEventDialog;
-  //  dlg->exec();
-    //delete dlg;
+
 }
 
 
@@ -531,7 +540,8 @@ void MainWindow::tcpReadyRead()
 
     QMessageBox::information( this, "Data read", readSocketBuffer, QMessageBox::Ok );
 
-    if( lastSentCmd.contains( "CMD_GETTIME", Qt::CaseInsensitive ) )
+    if( lastSentCmd.contains( "CMD_GETTIME", Qt::CaseInsensitive ) &&
+            QString( readSocketBuffer ).contains( "CMD_ANSW", Qt::CaseInsensitive ) )
     {
         QDate date;
         QTime time;
@@ -552,8 +562,25 @@ void MainWindow::tcpReadyRead()
         ui->dateTimeEdit->setTime( time );
     }
 
+    if( lastSentCmd.contains( "CMD_PLAY", Qt::CaseInsensitive ) &&
+            QString( readSocketBuffer ).contains( "CMD_OK", Qt::CaseInsensitive ) )
+    {
+        ui->messageGroupBox->setEnabled( true );
+        setCursor( Qt::ArrowCursor );
+    }
+
     lastSentCmd = "CMD_NONE";
 
     delete [] readSocketBuffer;
+}
+
+
+
+void MainWindow::itemClicked( QTreeWidgetItem* item, int column )
+{
+    //QMessageBox::information( this, "Item", item->text( 0 ), QMessageBox::Ok );
+
+
+    ui->eventPushButton->setEnabled( item->text( 0 ) != ".." && !isDirectory.value( item->text( 0 ) ) );
 }
 

@@ -43,6 +43,7 @@ private slots:
     void easGetTime( bool clicked );
     void easSyncTime( bool clicked );
     void tcpReadyRead();
+    void itemClicked( QTreeWidgetItem* item,int column );
 
 public:
     MainWindow(QWidget *parent = 0);

@@ -22,7 +22,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      15,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -45,6 +45,7 @@ static const uint qt_meta_data_MainWindow[] = {
      303,   31,   11,   11, 0x08,
      320,   31,   11,   11, 0x08,
      338,   11,   11,   11, 0x08,
+     353,  131,   11,   11, 0x08,
 
        0        // eod
 };
@@ -60,6 +61,7 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "newFolder(bool)\0blicked\0descriptionMsg(bool)\0"
     "eventMsg(bool)\0easGetTime(bool)\0"
     "easSyncTime(bool)\0tcpReadyRead()\0"
+    "itemClicked(QTreeWidgetItem*,int)\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -83,6 +85,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 12: _t->easGetTime((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 13: _t->easSyncTime((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 14: _t->tcpReadyRead(); break;
+        case 15: _t->itemClicked((*reinterpret_cast< QTreeWidgetItem*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
     }
@@ -120,9 +123,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 15)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 16;
     }
     return _id;
 }

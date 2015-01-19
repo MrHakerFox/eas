@@ -36,19 +36,18 @@ public:
     QLabel *msgNameLabel;
     QLabel *msgDescriptioLabel;
     QLabel *label_4;
-    QLabel *label_5;
     QGroupBox *groupBox_2;
     QComboBox *conditionComboBox;
     QCheckBox *byTimerCheckBox;
     QCheckBox *byIOEventCheckBox;
     QGroupBox *timeGroupBox;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QGridLayout *gridLayout;
     QDateTimeEdit *dateTimeEdit;
     QRadioButton *onceRadioButton;
     QRadioButton *repeatRadioButton;
     QGroupBox *ioGroupBox;
-    QWidget *widget1;
+    QWidget *layoutWidget1;
     QGridLayout *gridLayout_2;
     QLabel *label_2;
     QComboBox *di0TrigComboBox;
@@ -97,44 +96,40 @@ public:
         label_4->setObjectName(QString::fromUtf8("label_4"));
         label_4->setGeometry(QRect(10, 40, 71, 16));
         label_4->setFont(font);
-        label_5 = new QLabel(groupBox);
-        label_5->setObjectName(QString::fromUtf8("label_5"));
-        label_5->setGeometry(QRect(10, 70, 281, 16));
-        label_5->setFont(font);
         groupBox_2 = new QGroupBox(groupBox);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
-        groupBox_2->setGeometry(QRect(10, 70, 531, 191));
+        groupBox_2->setGeometry(QRect(10, 80, 531, 181));
         conditionComboBox = new QComboBox(groupBox_2);
         conditionComboBox->setObjectName(QString::fromUtf8("conditionComboBox"));
-        conditionComboBox->setGeometry(QRect(190, 30, 111, 22));
+        conditionComboBox->setGeometry(QRect(187, 15, 111, 22));
         byTimerCheckBox = new QCheckBox(groupBox_2);
         byTimerCheckBox->setObjectName(QString::fromUtf8("byTimerCheckBox"));
-        byTimerCheckBox->setGeometry(QRect(20, 30, 71, 18));
+        byTimerCheckBox->setGeometry(QRect(20, 15, 71, 18));
         byIOEventCheckBox = new QCheckBox(groupBox_2);
         byIOEventCheckBox->setObjectName(QString::fromUtf8("byIOEventCheckBox"));
-        byIOEventCheckBox->setGeometry(QRect(332, 30, 91, 18));
+        byIOEventCheckBox->setGeometry(QRect(332, 15, 91, 18));
         timeGroupBox = new QGroupBox(groupBox_2);
         timeGroupBox->setObjectName(QString::fromUtf8("timeGroupBox"));
         timeGroupBox->setEnabled(false);
-        timeGroupBox->setGeometry(QRect(20, 50, 141, 101));
-        widget = new QWidget(timeGroupBox);
-        widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(10, 20, 118, 70));
-        gridLayout = new QGridLayout(widget);
+        timeGroupBox->setGeometry(QRect(20, 42, 141, 101));
+        layoutWidget = new QWidget(timeGroupBox);
+        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
+        layoutWidget->setGeometry(QRect(10, 20, 118, 70));
+        gridLayout = new QGridLayout(layoutWidget);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         gridLayout->setContentsMargins(0, 0, 0, 0);
-        dateTimeEdit = new QDateTimeEdit(widget);
+        dateTimeEdit = new QDateTimeEdit(layoutWidget);
         dateTimeEdit->setObjectName(QString::fromUtf8("dateTimeEdit"));
 
         gridLayout->addWidget(dateTimeEdit, 0, 0, 1, 1);
 
-        onceRadioButton = new QRadioButton(widget);
+        onceRadioButton = new QRadioButton(layoutWidget);
         onceRadioButton->setObjectName(QString::fromUtf8("onceRadioButton"));
         onceRadioButton->setChecked(true);
 
         gridLayout->addWidget(onceRadioButton, 1, 0, 1, 1);
 
-        repeatRadioButton = new QRadioButton(widget);
+        repeatRadioButton = new QRadioButton(layoutWidget);
         repeatRadioButton->setObjectName(QString::fromUtf8("repeatRadioButton"));
 
         gridLayout->addWidget(repeatRadioButton, 2, 0, 1, 1);
@@ -142,49 +137,49 @@ public:
         ioGroupBox = new QGroupBox(groupBox_2);
         ioGroupBox->setObjectName(QString::fromUtf8("ioGroupBox"));
         ioGroupBox->setEnabled(false);
-        ioGroupBox->setGeometry(QRect(332, 50, 181, 131));
-        widget1 = new QWidget(ioGroupBox);
-        widget1->setObjectName(QString::fromUtf8("widget1"));
-        widget1->setGeometry(QRect(10, 20, 151, 100));
-        gridLayout_2 = new QGridLayout(widget1);
+        ioGroupBox->setGeometry(QRect(333, 40, 181, 131));
+        layoutWidget1 = new QWidget(ioGroupBox);
+        layoutWidget1->setObjectName(QString::fromUtf8("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(10, 20, 151, 100));
+        gridLayout_2 = new QGridLayout(layoutWidget1);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         gridLayout_2->setContentsMargins(0, 0, 0, 0);
-        label_2 = new QLabel(widget1);
+        label_2 = new QLabel(layoutWidget1);
         label_2->setObjectName(QString::fromUtf8("label_2"));
 
         gridLayout_2->addWidget(label_2, 0, 0, 1, 1);
 
-        di0TrigComboBox = new QComboBox(widget1);
+        di0TrigComboBox = new QComboBox(layoutWidget1);
         di0TrigComboBox->setObjectName(QString::fromUtf8("di0TrigComboBox"));
 
         gridLayout_2->addWidget(di0TrigComboBox, 0, 1, 1, 1);
 
-        label_3 = new QLabel(widget1);
+        label_3 = new QLabel(layoutWidget1);
         label_3->setObjectName(QString::fromUtf8("label_3"));
 
         gridLayout_2->addWidget(label_3, 1, 0, 1, 1);
 
-        di1TrigComboBox = new QComboBox(widget1);
+        di1TrigComboBox = new QComboBox(layoutWidget1);
         di1TrigComboBox->setObjectName(QString::fromUtf8("di1TrigComboBox"));
 
         gridLayout_2->addWidget(di1TrigComboBox, 1, 1, 1, 1);
 
-        label_6 = new QLabel(widget1);
+        label_6 = new QLabel(layoutWidget1);
         label_6->setObjectName(QString::fromUtf8("label_6"));
 
         gridLayout_2->addWidget(label_6, 2, 0, 1, 1);
 
-        di2TrigComboBox = new QComboBox(widget1);
+        di2TrigComboBox = new QComboBox(layoutWidget1);
         di2TrigComboBox->setObjectName(QString::fromUtf8("di2TrigComboBox"));
 
         gridLayout_2->addWidget(di2TrigComboBox, 2, 1, 1, 1);
 
-        label_7 = new QLabel(widget1);
+        label_7 = new QLabel(layoutWidget1);
         label_7->setObjectName(QString::fromUtf8("label_7"));
 
         gridLayout_2->addWidget(label_7, 3, 0, 1, 1);
 
-        di3TrigComboBox = new QComboBox(widget1);
+        di3TrigComboBox = new QComboBox(layoutWidget1);
         di3TrigComboBox->setObjectName(QString::fromUtf8("di3TrigComboBox"));
 
         gridLayout_2->addWidget(di3TrigComboBox, 3, 1, 1, 1);
@@ -201,11 +196,10 @@ public:
     {
         FMsgEventDialog->setWindowTitle(QApplication::translate("FMsgEventDialog", "Dialog", 0, QApplication::UnicodeUTF8));
         groupBox->setTitle(QApplication::translate("FMsgEventDialog", "Event Manager", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("FMsgEventDialog", "Message:", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("FMsgEventDialog", "Name", 0, QApplication::UnicodeUTF8));
         msgNameLabel->setText(QApplication::translate("FMsgEventDialog", "Super Message to go in USA with family!", 0, QApplication::UnicodeUTF8));
         msgDescriptioLabel->setText(QApplication::translate("FMsgEventDialog", "Description:", 0, QApplication::UnicodeUTF8));
         label_4->setText(QApplication::translate("FMsgEventDialog", "Description:", 0, QApplication::UnicodeUTF8));
-        label_5->setText(QString());
         groupBox_2->setTitle(QApplication::translate("FMsgEventDialog", "Play it, when the following contitions are met", 0, QApplication::UnicodeUTF8));
         conditionComboBox->clear();
         conditionComboBox->insertItems(0, QStringList()
