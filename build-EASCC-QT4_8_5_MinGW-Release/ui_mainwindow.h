@@ -344,6 +344,7 @@ public:
         gridLayout_4->setContentsMargins(0, 0, 0, 0);
         dateTimeEdit = new QDateTimeEdit(layoutWidget4);
         dateTimeEdit->setObjectName(QString::fromUtf8("dateTimeEdit"));
+        dateTimeEdit->setReadOnly(true);
 
         gridLayout_4->addWidget(dateTimeEdit, 0, 0, 1, 2);
 

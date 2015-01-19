@@ -57,6 +57,7 @@ private:
     QString currentPath;
     QFile* file;
     QTcpSocket* tcp;
+    QString lastSentCmd;
 
     void addParentDir();
 };

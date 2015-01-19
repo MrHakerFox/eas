@@ -498,6 +498,8 @@ void MainWindow::easGetTime( bool clicked )
     QString buffer = "CMD_GETTIMECMD_END";
     tcp->write( buffer.toStdString().c_str() );
 
+    lastSentCmd = buffer;
+
 //    FMsgEventDialog* dlg = new FMsgEventDialog;
   //  dlg->exec();
     //delete dlg;
@@ -528,5 +530,30 @@ void MainWindow::tcpReadyRead()
     tcp->read( readSocketBuffer, 32768 );
 
     QMessageBox::information( this, "Data read", readSocketBuffer, QMessageBox::Ok );
+
+    if( lastSentCmd.contains( "CMD_GETTIME", Qt::CaseInsensitive ) )
+    {
+        QDate date;
+        QTime time;
+
+        int hour = ( readSocketBuffer[ 8 ] - 0x30 ) * 10 + ( readSocketBuffer[ 9 ] - 0x30 );
+        int min = ( readSocketBuffer[ 11 ] - 0x30 ) * 10 + ( readSocketBuffer[ 12 ] - 0x30 );
+        int sec = ( readSocketBuffer[ 14 ] - 0x30 ) * 10 + ( readSocketBuffer[ 15 ] - 0x30 );
+
+        int day = ( readSocketBuffer[ 17 ] - 0x30 ) * 10 + ( readSocketBuffer[ 18 ] - 0x30 );
+        int mon = ( readSocketBuffer[ 20 ] - 0x30 ) * 10 + ( readSocketBuffer[ 21 ] - 0x30 );
+        int year = ( readSocketBuffer[ 23 ] - 0x30 ) * 1000 + ( readSocketBuffer[ 24 ] - 0x30 ) * 100 +
+                ( readSocketBuffer[ 25 ] - 0x30 ) * 10 + ( readSocketBuffer[ 26 ] - 0x30 );
+
+        date.setYMD( year, mon, day );
+        time.setHMS( hour, min, sec );
+
+        ui->dateTimeEdit->setDate( date );
+        ui->dateTimeEdit->setTime( time );
+    }
+
+    lastSentCmd = "CMD_NONE";
+
+    delete [] readSocketBuffer;
 }
 
