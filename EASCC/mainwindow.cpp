@@ -506,6 +506,8 @@ void MainWindow::descriptionMsg( bool blicked )
 void MainWindow::eventMsg( bool clicked )
 {
     QDateTime dtime;
+    uint8_t schedule;
+    QString description;
 
     QTime time;
     QDate date;
@@ -515,8 +517,18 @@ void MainWindow::eventMsg( bool clicked )
 
     dtime.setTime( time );
     dtime.setDate( date );
+
     FMsgEventDialog* dlg = new FMsgEventDialog( 0, "testfile", 1 << 7 | 1 << 5 | 1 << 0, "no descr", dtime );
-    dlg->exec();
+    if( dlg->exec() == QDialog::Accepted )
+    {
+        if( dlg->getAttribs( &schedule, &description, &dtime ) )
+        {
+            QMessageBox::information( this, "Something changed", QString( "%1:%2:%3 %4.%5.%6 %7 %8" ).arg( dtime.time().hour() ).
+                                      arg( dtime.time().minute() ).arg( dtime.time().second() ).
+                                      arg( dtime.date().day()).arg( dtime.date().month()).arg( dtime.date().year() ).
+                                      arg( schedule ).arg( description ), QMessageBox::Ok );
+        }
+    }
     delete dlg;
 }
 

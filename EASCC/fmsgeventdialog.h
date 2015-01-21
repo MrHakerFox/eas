@@ -17,7 +17,7 @@ public:
     explicit FMsgEventDialog(QWidget *parent, QString fileName, uint8_t schedule, QString description, QDateTime dtime );
     ~FMsgEventDialog();
 
-    bool getAttribs( uint8_t* schedule, QString* description, QDateTime* dtime );
+    bool getAttribs( uint8_t* schedule = 0, QString* description = 0, QDateTime* dtime = 0 );
 
 private:
     Ui::FMsgEventDialog *ui;
