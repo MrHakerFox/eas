@@ -268,6 +268,15 @@ void MainWindow::ftpCommandFinished(int, bool error)
 void MainWindow::addToList(const QUrlInfo &urlInfo)
 {
     QTreeWidgetItem *item = new QTreeWidgetItem;
+
+    if( !urlInfo.isDir() )
+    {
+        if( !urlInfo.name().contains( ".mp3", Qt::CaseInsensitive) && !urlInfo.name().contains( ".wav", Qt::CaseInsensitive) )
+        {
+            return;
+        }
+    }
+
     item->setText(0, urlInfo.name());
     item->setText(1, QString::number(urlInfo.size()));
     item->setText(3, urlInfo.lastModified().toString("dd MMM yyyy"));
@@ -425,6 +434,11 @@ void MainWindow::downloadMsg( bool clicked )
                                                  QFileDialog::ShowDirsOnly
                                                  | QFileDialog::DontResolveSymlinks);
 
+    if( dir.isEmpty() )
+    {
+        return;
+    }
+
     QString fullFileName = dir + "\\" + filename;
 //
     if (QFile::exists(fullFileName)) {
@@ -491,7 +505,17 @@ void MainWindow::descriptionMsg( bool blicked )
 
 void MainWindow::eventMsg( bool clicked )
 {
-    FMsgEventDialog* dlg = new FMsgEventDialog;
+    QDateTime dtime;
+
+    QTime time;
+    QDate date;
+
+    time.setHMS( 17, 33, 10 );
+    date.setYMD( 2015, 1, 8 );
+
+    dtime.setTime( time );
+    dtime.setDate( date );
+    FMsgEventDialog* dlg = new FMsgEventDialog( 0, "testfile", 1 << 7 | 1 << 5 | 1 << 0, "no descr", dtime );
     dlg->exec();
     delete dlg;
 }
@@ -582,5 +606,6 @@ void MainWindow::itemClicked( QTreeWidgetItem* item, int column )
 
 
     ui->eventPushButton->setEnabled( item->text( 0 ) != ".." && !isDirectory.value( item->text( 0 ) ) );
+    ui->descriptionPushButton->setEnabled( item->text( 0 ) != ".." && !isDirectory.value( item->text( 0 ) ) );
 }
 

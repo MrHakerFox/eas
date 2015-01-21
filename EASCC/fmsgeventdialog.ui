@@ -135,9 +135,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
+      <y>70</y>
       <width>531</width>
-      <height>181</height>
+      <height>191</height>
      </rect>
     </property>
     <property name="title">
@@ -146,10 +146,10 @@
     <widget class="QComboBox" name="conditionComboBox">
      <property name="geometry">
       <rect>
-       <x>187</x>
-       <y>15</y>
+       <x>142</x>
+       <y>21</y>
        <width>111</width>
-       <height>22</height>
+       <height>20</height>
       </rect>
      </property>
      <item>
@@ -171,9 +171,9 @@
     <widget class="QCheckBox" name="byTimerCheckBox">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>15</y>
-       <width>71</width>
+       <x>21</x>
+       <y>22</y>
+       <width>59</width>
        <height>18</height>
       </rect>
      </property>
@@ -184,9 +184,9 @@
     <widget class="QCheckBox" name="byIOEventCheckBox">
      <property name="geometry">
       <rect>
-       <x>332</x>
-       <y>15</y>
-       <width>91</width>
+       <x>330</x>
+       <y>22</y>
+       <width>82</width>
        <height>18</height>
       </rect>
      </property>
@@ -200,42 +200,74 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>42</y>
-       <width>141</width>
-       <height>101</height>
+       <x>17</x>
+       <y>50</y>
+       <width>301</width>
+       <height>131</height>
       </rect>
      </property>
      <property name="title">
       <string>Time</string>
      </property>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>118</width>
-        <height>70</height>
+        <x>11</x>
+        <y>18</y>
+        <width>271</width>
+        <height>101</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
+       <item row="0" column="0" colspan="2">
         <widget class="QDateTimeEdit" name="dateTimeEdit"/>
        </item>
        <item row="1" column="0">
-        <widget class="QRadioButton" name="onceRadioButton">
+        <widget class="QCheckBox" name="monCheckBox">
          <property name="text">
-          <string>Once</string>
+          <string>Mon</string>
          </property>
-         <property name="checked">
-          <bool>true</bool>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="thuCheckBox">
+         <property name="text">
+          <string>Thu</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QCheckBox" name="sunCheckBox">
+         <property name="text">
+          <string>Sun</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QRadioButton" name="repeatRadioButton">
+        <widget class="QCheckBox" name="tueCheckBox">
          <property name="text">
-          <string>Repeatedly</string>
+          <string>Tue</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="friCheckBox">
+         <property name="text">
+          <string>Fri</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="wedCheckBox">
+         <property name="text">
+          <string>Wed</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="satCheckBox">
+         <property name="text">
+          <string>Sat</string>
          </property>
         </widget>
        </item>
@@ -248,8 +280,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>333</x>
-       <y>40</y>
+       <x>330</x>
+       <y>50</y>
        <width>181</width>
        <height>131</height>
       </rect>

@@ -22,7 +22,6 @@
 #include <QtGui/QGroupBox>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
-#include <QtGui/QRadioButton>
 #include <QtGui/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -41,13 +40,18 @@ public:
     QCheckBox *byTimerCheckBox;
     QCheckBox *byIOEventCheckBox;
     QGroupBox *timeGroupBox;
-    QWidget *layoutWidget;
+    QWidget *widget;
     QGridLayout *gridLayout;
     QDateTimeEdit *dateTimeEdit;
-    QRadioButton *onceRadioButton;
-    QRadioButton *repeatRadioButton;
+    QCheckBox *monCheckBox;
+    QCheckBox *thuCheckBox;
+    QCheckBox *sunCheckBox;
+    QCheckBox *tueCheckBox;
+    QCheckBox *friCheckBox;
+    QCheckBox *wedCheckBox;
+    QCheckBox *satCheckBox;
     QGroupBox *ioGroupBox;
-    QWidget *layoutWidget1;
+    QWidget *layoutWidget;
     QGridLayout *gridLayout_2;
     QLabel *label_2;
     QComboBox *di0TrigComboBox;
@@ -98,88 +102,112 @@ public:
         label_4->setFont(font);
         groupBox_2 = new QGroupBox(groupBox);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
-        groupBox_2->setGeometry(QRect(10, 80, 531, 181));
+        groupBox_2->setGeometry(QRect(10, 70, 531, 191));
         conditionComboBox = new QComboBox(groupBox_2);
         conditionComboBox->setObjectName(QString::fromUtf8("conditionComboBox"));
-        conditionComboBox->setGeometry(QRect(187, 15, 111, 22));
+        conditionComboBox->setGeometry(QRect(142, 21, 111, 20));
         byTimerCheckBox = new QCheckBox(groupBox_2);
         byTimerCheckBox->setObjectName(QString::fromUtf8("byTimerCheckBox"));
-        byTimerCheckBox->setGeometry(QRect(20, 15, 71, 18));
+        byTimerCheckBox->setGeometry(QRect(21, 22, 59, 18));
         byIOEventCheckBox = new QCheckBox(groupBox_2);
         byIOEventCheckBox->setObjectName(QString::fromUtf8("byIOEventCheckBox"));
-        byIOEventCheckBox->setGeometry(QRect(332, 15, 91, 18));
+        byIOEventCheckBox->setGeometry(QRect(330, 22, 82, 18));
         timeGroupBox = new QGroupBox(groupBox_2);
         timeGroupBox->setObjectName(QString::fromUtf8("timeGroupBox"));
         timeGroupBox->setEnabled(false);
-        timeGroupBox->setGeometry(QRect(20, 42, 141, 101));
-        layoutWidget = new QWidget(timeGroupBox);
-        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
-        layoutWidget->setGeometry(QRect(10, 20, 118, 70));
-        gridLayout = new QGridLayout(layoutWidget);
+        timeGroupBox->setGeometry(QRect(17, 50, 301, 131));
+        widget = new QWidget(timeGroupBox);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(11, 18, 271, 101));
+        gridLayout = new QGridLayout(widget);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         gridLayout->setContentsMargins(0, 0, 0, 0);
-        dateTimeEdit = new QDateTimeEdit(layoutWidget);
+        dateTimeEdit = new QDateTimeEdit(widget);
         dateTimeEdit->setObjectName(QString::fromUtf8("dateTimeEdit"));
 
-        gridLayout->addWidget(dateTimeEdit, 0, 0, 1, 1);
+        gridLayout->addWidget(dateTimeEdit, 0, 0, 1, 2);
 
-        onceRadioButton = new QRadioButton(layoutWidget);
-        onceRadioButton->setObjectName(QString::fromUtf8("onceRadioButton"));
-        onceRadioButton->setChecked(true);
+        monCheckBox = new QCheckBox(widget);
+        monCheckBox->setObjectName(QString::fromUtf8("monCheckBox"));
 
-        gridLayout->addWidget(onceRadioButton, 1, 0, 1, 1);
+        gridLayout->addWidget(monCheckBox, 1, 0, 1, 1);
 
-        repeatRadioButton = new QRadioButton(layoutWidget);
-        repeatRadioButton->setObjectName(QString::fromUtf8("repeatRadioButton"));
+        thuCheckBox = new QCheckBox(widget);
+        thuCheckBox->setObjectName(QString::fromUtf8("thuCheckBox"));
 
-        gridLayout->addWidget(repeatRadioButton, 2, 0, 1, 1);
+        gridLayout->addWidget(thuCheckBox, 1, 1, 1, 1);
+
+        sunCheckBox = new QCheckBox(widget);
+        sunCheckBox->setObjectName(QString::fromUtf8("sunCheckBox"));
+
+        gridLayout->addWidget(sunCheckBox, 1, 2, 1, 1);
+
+        tueCheckBox = new QCheckBox(widget);
+        tueCheckBox->setObjectName(QString::fromUtf8("tueCheckBox"));
+
+        gridLayout->addWidget(tueCheckBox, 2, 0, 1, 1);
+
+        friCheckBox = new QCheckBox(widget);
+        friCheckBox->setObjectName(QString::fromUtf8("friCheckBox"));
+
+        gridLayout->addWidget(friCheckBox, 2, 1, 1, 1);
+
+        wedCheckBox = new QCheckBox(widget);
+        wedCheckBox->setObjectName(QString::fromUtf8("wedCheckBox"));
+
+        gridLayout->addWidget(wedCheckBox, 3, 0, 1, 1);
+
+        satCheckBox = new QCheckBox(widget);
+        satCheckBox->setObjectName(QString::fromUtf8("satCheckBox"));
+
+        gridLayout->addWidget(satCheckBox, 3, 1, 1, 1);
 
         ioGroupBox = new QGroupBox(groupBox_2);
         ioGroupBox->setObjectName(QString::fromUtf8("ioGroupBox"));
         ioGroupBox->setEnabled(false);
-        ioGroupBox->setGeometry(QRect(333, 40, 181, 131));
-        layoutWidget1 = new QWidget(ioGroupBox);
-        layoutWidget1->setObjectName(QString::fromUtf8("layoutWidget1"));
-        layoutWidget1->setGeometry(QRect(10, 20, 151, 100));
-        gridLayout_2 = new QGridLayout(layoutWidget1);
+        ioGroupBox->setGeometry(QRect(330, 50, 181, 131));
+        layoutWidget = new QWidget(ioGroupBox);
+        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
+        layoutWidget->setGeometry(QRect(10, 20, 151, 100));
+        gridLayout_2 = new QGridLayout(layoutWidget);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         gridLayout_2->setContentsMargins(0, 0, 0, 0);
-        label_2 = new QLabel(layoutWidget1);
+        label_2 = new QLabel(layoutWidget);
         label_2->setObjectName(QString::fromUtf8("label_2"));
 
         gridLayout_2->addWidget(label_2, 0, 0, 1, 1);
 
-        di0TrigComboBox = new QComboBox(layoutWidget1);
+        di0TrigComboBox = new QComboBox(layoutWidget);
         di0TrigComboBox->setObjectName(QString::fromUtf8("di0TrigComboBox"));
 
         gridLayout_2->addWidget(di0TrigComboBox, 0, 1, 1, 1);
 
-        label_3 = new QLabel(layoutWidget1);
+        label_3 = new QLabel(layoutWidget);
         label_3->setObjectName(QString::fromUtf8("label_3"));
 
         gridLayout_2->addWidget(label_3, 1, 0, 1, 1);
 
-        di1TrigComboBox = new QComboBox(layoutWidget1);
+        di1TrigComboBox = new QComboBox(layoutWidget);
         di1TrigComboBox->setObjectName(QString::fromUtf8("di1TrigComboBox"));
 
         gridLayout_2->addWidget(di1TrigComboBox, 1, 1, 1, 1);
 
-        label_6 = new QLabel(layoutWidget1);
+        label_6 = new QLabel(layoutWidget);
         label_6->setObjectName(QString::fromUtf8("label_6"));
 
         gridLayout_2->addWidget(label_6, 2, 0, 1, 1);
 
-        di2TrigComboBox = new QComboBox(layoutWidget1);
+        di2TrigComboBox = new QComboBox(layoutWidget);
         di2TrigComboBox->setObjectName(QString::fromUtf8("di2TrigComboBox"));
 
         gridLayout_2->addWidget(di2TrigComboBox, 2, 1, 1, 1);
 
-        label_7 = new QLabel(layoutWidget1);
+        label_7 = new QLabel(layoutWidget);
         label_7->setObjectName(QString::fromUtf8("label_7"));
 
         gridLayout_2->addWidget(label_7, 3, 0, 1, 1);
 
-        di3TrigComboBox = new QComboBox(layoutWidget1);
+        di3TrigComboBox = new QComboBox(layoutWidget);
         di3TrigComboBox->setObjectName(QString::fromUtf8("di3TrigComboBox"));
 
         gridLayout_2->addWidget(di3TrigComboBox, 3, 1, 1, 1);
@@ -210,8 +238,13 @@ public:
         byTimerCheckBox->setText(QApplication::translate("FMsgEventDialog", "By time", 0, QApplication::UnicodeUTF8));
         byIOEventCheckBox->setText(QApplication::translate("FMsgEventDialog", "By IO event", 0, QApplication::UnicodeUTF8));
         timeGroupBox->setTitle(QApplication::translate("FMsgEventDialog", "Time", 0, QApplication::UnicodeUTF8));
-        onceRadioButton->setText(QApplication::translate("FMsgEventDialog", "Once", 0, QApplication::UnicodeUTF8));
-        repeatRadioButton->setText(QApplication::translate("FMsgEventDialog", "Repeatedly", 0, QApplication::UnicodeUTF8));
+        monCheckBox->setText(QApplication::translate("FMsgEventDialog", "Mon", 0, QApplication::UnicodeUTF8));
+        thuCheckBox->setText(QApplication::translate("FMsgEventDialog", "Thu", 0, QApplication::UnicodeUTF8));
+        sunCheckBox->setText(QApplication::translate("FMsgEventDialog", "Sun", 0, QApplication::UnicodeUTF8));
+        tueCheckBox->setText(QApplication::translate("FMsgEventDialog", "Tue", 0, QApplication::UnicodeUTF8));
+        friCheckBox->setText(QApplication::translate("FMsgEventDialog", "Fri", 0, QApplication::UnicodeUTF8));
+        wedCheckBox->setText(QApplication::translate("FMsgEventDialog", "Wed", 0, QApplication::UnicodeUTF8));
+        satCheckBox->setText(QApplication::translate("FMsgEventDialog", "Sat", 0, QApplication::UnicodeUTF8));
         ioGroupBox->setTitle(QApplication::translate("FMsgEventDialog", "DI Trgigger Options", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("FMsgEventDialog", "DI0", 0, QApplication::UnicodeUTF8));
         di0TrigComboBox->clear();
