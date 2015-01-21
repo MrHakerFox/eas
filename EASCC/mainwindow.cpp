@@ -509,6 +509,9 @@ void MainWindow::eventMsg( bool clicked )
     uint8_t schedule;
     QString description;
 
+    QString dtimeString;
+    QString scheduleString;
+
     QTime time;
     QDate date;
 
@@ -523,10 +526,19 @@ void MainWindow::eventMsg( bool clicked )
     {
         if( dlg->getAttribs( &schedule, &description, &dtime ) )
         {
-            QMessageBox::information( this, "Something changed", QString( "%1:%2:%3 %4.%5.%6 %7 %8" ).arg( dtime.time().hour() ).
-                                      arg( dtime.time().minute() ).arg( dtime.time().second() ).
-                                      arg( dtime.date().day()).arg( dtime.date().month()).arg( dtime.date().year() ).
-                                      arg( schedule ).arg( description ), QMessageBox::Ok );
+            dtimeString.sprintf( "%02d-%02d-%02d_%02d-%02d-%04d", dtime.time().hour(),
+                                 dtime.time().minute(), dtime.time().second(),
+                                 dtime.date().day(), dtime.date().month(), dtime.date().year() );
+
+            scheduleString.sprintf( "%02x", schedule );
+
+
+            QMessageBox::information( this, "Something changed", dtimeString + "_" + scheduleString + "_" + description, QMessageBox::Ok );
+
+            QString buffer = "CMD_SETMSGEVENT" + dtimeString + scheduleString + description + "CMD_END";
+            tcp->write( buffer.toStdString().c_str() );
+
+            lastSentCmd = buffer;
         }
     }
     delete dlg;
