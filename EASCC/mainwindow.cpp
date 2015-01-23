@@ -275,6 +275,11 @@ void MainWindow::addToList(const QUrlInfo &urlInfo)
         {
             return;
         }
+
+        if( urlInfo.name().at( urlInfo.name().length() - 3 ) != 'm' && urlInfo.name().at( urlInfo.name().length() - 3 ) != 'w' )
+        {
+            return;
+        }
     }
 
     item->setText(0, urlInfo.name());
@@ -521,24 +526,31 @@ void MainWindow::eventMsg( bool clicked )
     dtime.setTime( time );
     dtime.setDate( date );
 
-    FMsgEventDialog* dlg = new FMsgEventDialog( 0, "testfile", 1 << 7 | 1 << 5 | 1 << 0, "no descr", dtime );
+    FMsgEventDialog* dlg = new FMsgEventDialog( 0, ui->messageTreeWidget->currentItem()->text( 0 ), 1 << 7 | 1 << 5 | 1 << 0, "no descr", dtime );
     if( dlg->exec() == QDialog::Accepted )
     {
         if( dlg->getAttribs( &schedule, &description, &dtime ) )
         {
-            dtimeString.sprintf( "%02d-%02d-%02d_%02d-%02d-%04d", dtime.time().hour(),
+            dtimeString.sprintf( "%02d-%02d-%02d_%02d-%02d-%04d-", dtime.time().hour(),
                                  dtime.time().minute(), dtime.time().second(),
                                  dtime.date().day(), dtime.date().month(), dtime.date().year() );
 
             scheduleString.sprintf( "%02x", schedule );
 
+            QString fileName = "_schedule_" + ui->messageTreeWidget->currentItem()->text( 0 ) + "_" + dtimeString + scheduleString;
 
-            QMessageBox::information( this, "Something changed", dtimeString + "_" + scheduleString + "_" + description, QMessageBox::Ok );
+            QFile sFile;
+            sFile.setFileName( fileName );
+            ftp->put( &sFile, fileName );
 
-            QString buffer = "CMD_SETMSGEVENT" + dtimeString + scheduleString + description + "CMD_END";
-            tcp->write( buffer.toStdString().c_str() );
 
-            lastSentCmd = buffer;
+            QMessageBox::information( this, "Something changed", fileName, QMessageBox::Ok );
+
+
+
+            //tcp->write( buffer.toStdString().c_str() );
+
+            //lastSentCmd = buffer;
         }
     }
     delete dlg;
