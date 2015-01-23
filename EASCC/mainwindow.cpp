@@ -46,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     tcp = new QTcpSocket;
     connect( tcp, SIGNAL( readyRead() ), this, SLOT( tcpReadyRead() ) );
+
+    ftpControlFlag = false;
 }
 
 MainWindow::~MainWindow()
@@ -245,17 +247,30 @@ void MainWindow::ftpCommandFinished(int, bool error)
 
     if( ftp->currentCommand() == QFtp::Put )
     {
-        return;
 
         ui->messageGroupBox->setEnabled( true );
         if (error)
         {
+            if( ftpControlFlag )
+            {
+                QMessageBox::critical(this, tr("EAS"),
+                                         tr( "General error!" ) );
+                ftpControlFlag = false;
+                return;
+            }
+
             QMessageBox::critical(this, tr("EAS Uploading"),
                                      tr( "Can't upload %1!" ).arg( file->fileName() ) );
             file->close();
         }
         else
         {
+            if( ftpControlFlag )
+            {
+                ftpControlFlag = false;
+                return;
+            }
+
             file->close();
             QMessageBox::information(this, tr("EAS Uploading"),
                                      tr( "%1 successfully uploaded!" ).arg( file->fileName() ) );
@@ -548,6 +563,7 @@ void MainWindow::eventMsg( bool clicked )
             ba[2] = 0x64;
             ba[3] = 0x18;
             ba[4] = 0xca;
+            ftpControlFlag = true;
             ftp->put( ba, fileName );
 
 

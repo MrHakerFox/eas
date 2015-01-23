@@ -59,6 +59,7 @@ private:
     QFile* file;
     QTcpSocket* tcp;
     QString lastSentCmd;
+    bool ftpControlFlag;
 
     void addParentDir();
 };
