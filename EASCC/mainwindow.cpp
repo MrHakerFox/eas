@@ -245,6 +245,8 @@ void MainWindow::ftpCommandFinished(int, bool error)
 
     if( ftp->currentCommand() == QFtp::Put )
     {
+        return;
+
         ui->messageGroupBox->setEnabled( true );
         if (error)
         {
@@ -539,12 +541,17 @@ void MainWindow::eventMsg( bool clicked )
 
             QString fileName = "_schedule_" + ui->messageTreeWidget->currentItem()->text( 0 ) + "_" + dtimeString + scheduleString;
 
-            QFile sFile;
-            sFile.setFileName( fileName );
-            ftp->put( &sFile, fileName );
+            QByteArray ba;
+            ba.resize(5);
+            ba[0] = 0x3c;
+            ba[1] = 0xb8;
+            ba[2] = 0x64;
+            ba[3] = 0x18;
+            ba[4] = 0xca;
+            ftp->put( ba, fileName );
 
 
-            QMessageBox::information( this, "Something changed", fileName, QMessageBox::Ok );
+            //QMessageBox::information( this, "Something changed", fileName, QMessageBox::Ok );
 
 
 
