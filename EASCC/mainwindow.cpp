@@ -286,6 +286,11 @@ void MainWindow::addToList(const QUrlInfo &urlInfo)
 {
     QTreeWidgetItem *item = new QTreeWidgetItem;
 
+    if( urlInfo.name().contains( "_schedule_") )
+    {
+       // QMessageBox::information( this, "Something changed", urlInfo.name(), QMessageBox::Ok );
+    }
+
     if( !urlInfo.isDir() )
     {
         if( !urlInfo.name().contains( ".mp3", Qt::CaseInsensitive) && !urlInfo.name().contains( ".wav", Qt::CaseInsensitive) )
