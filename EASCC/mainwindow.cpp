@@ -147,9 +147,9 @@ void MainWindow::connectToEas( bool clicked )
 
 void MainWindow::ftpCommandFinished(int, bool error)
 {
-#ifndef QT_NO_CURSOR
+
     setCursor(Qt::ArrowCursor);
-#endif
+
 
     if (ftp->currentCommand() == QFtp::ConnectToHost )
     {
@@ -454,6 +454,7 @@ void MainWindow::renameMsg( bool clicked )
                                                  currentFile, &ok);
         if (ok && !text.isEmpty())
         {
+            setCursor(Qt::WaitCursor);
             ui->messageGroupBox->setEnabled( false );
             ftp->rename( currentPath + "/" + currentFile, currentPath + "/" + text );
         }
@@ -473,6 +474,7 @@ void MainWindow::deleteMsg( bool clicked )
         if( QMessageBox::question( this, tr("EAS removing message"),
                                  tr( "Do you really want to remove" ) + currentPath + "/" + current->text( 0 ) + " ?", QMessageBox::Yes | QMessageBox::No ) ==QMessageBox::Yes )
         {
+            setCursor(Qt::WaitCursor);
             ui->messageGroupBox->setEnabled( false );
             if( !isDirectory.value(currentFile) )
             {
@@ -511,6 +513,7 @@ void MainWindow::uploadMsg( bool clicked )
 
     //QMessageBox::information( this, "", file->f );
 
+    setCursor(Qt::WaitCursor);
     ui->messageGroupBox->setEnabled( false );
     QFileInfo fname( file->fileName() );
     ftp->put( file, fname.fileName() );
@@ -552,7 +555,7 @@ void MainWindow::downloadMsg( bool clicked )
         delete file;
         return;
     }
-
+    setCursor(Qt::WaitCursor);
     ui->messageGroupBox->setEnabled( false );
     ftp->get(ui->messageTreeWidget->currentItem()->text(0), file);
 
@@ -565,6 +568,8 @@ void MainWindow::downloadMsg( bool clicked )
 
 void MainWindow::newFolder( bool clicked )
 {
+
+
     bool ok;
     QString text = QInputDialog::getText(this, tr("New folder at ") + currentPath,
                                              tr("Folder name:"), QLineEdit::Normal,
@@ -572,6 +577,7 @@ void MainWindow::newFolder( bool clicked )
     if (ok && !text.isEmpty())
     {
         ui->messageGroupBox->setEnabled( false );
+        setCursor(Qt::WaitCursor);
         ftp->mkdir( currentPath + "/" + text );
     }
 }
@@ -650,6 +656,9 @@ void MainWindow::eventMsg( bool clicked )
 
             ftpControlFlag = true;
 
+            ui->messageGroupBox->setEnabled( false );
+            setCursor(Qt::WaitCursor);
+
             if( scheduleFileFoundCounter > -1 )
             {
                 ftp->remove( currentPath + "/" + scheduleFile[ scheduleFileFoundCounter ].scheduleFileName );
@@ -686,6 +695,9 @@ void MainWindow::eventMsg( bool clicked )
 
 void MainWindow::easGetTime( bool clicked )
 {
+    ui->messageGroupBox->setEnabled( false );
+    setCursor(Qt::WaitCursor);
+
     QDate date = QDate::currentDate();
     QTime time = QTime::currentTime();
 
@@ -704,6 +716,9 @@ void MainWindow::easGetTime( bool clicked )
 
 void MainWindow::easSyncTime( bool clicked )
 {
+    ui->messageGroupBox->setEnabled( false );
+    setCursor(Qt::WaitCursor);
+
     QDate date = QDate::currentDate();
     QTime time = QTime::currentTime();
 
@@ -723,6 +738,9 @@ void MainWindow::tcpReadyRead()
     while( !tcp->bytesAvailable() );
 
     tcp->read( readSocketBuffer, 32768 );
+
+    ui->messageGroupBox->setEnabled( true );
+    setCursor(Qt::ArrowCursor);
 
     QMessageBox::information( this, "Data read", readSocketBuffer, QMessageBox::Ok );
 
