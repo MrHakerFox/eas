@@ -169,8 +169,6 @@ void MainWindow::ftpCommandFinished(int, bool error)
         ui->connectPushButton->setText( tr( "Disconnect" ) );
         ui->messageGroupBox->setEnabled( true );
 
-        easGetTime( false );
-
         return;
     }
 
@@ -183,6 +181,12 @@ void MainWindow::ftpCommandFinished(int, bool error)
         //QModelIndex ind( 0, 0 );
         //ui->messageTreeWidget->setCurrentIndex( );
        // ui->eventPushButton->setEnabled( ui->messageTreeWidget->currentItem()->text( 0 ) != ".." && !isDirectory.value( ui->messageTreeWidget->currentItem()->text( 0 ) ) );
+    }
+
+    if( ftp->currentCommand() == QFtp::List )
+    {
+        easGetTime( false );
+        return;
     }
 
     if( ftp->currentCommand() == QFtp::Mkdir )
@@ -256,6 +260,17 @@ void MainWindow::ftpCommandFinished(int, bool error)
         ftp->list();
     }
 
+    if( ftp->currentCommand() == QFtp::Cd )
+    {
+        ui->messageGroupBox->setEnabled( true );
+        if( error )
+        {
+            QMessageBox::information(this, tr("EAS rename"),
+                                     tr( "Can't change directory!" ) );
+            return;
+        }
+    }
+
     if ( ftp->currentCommand() == QFtp::Get )
     {
         ui->messageGroupBox->setEnabled( true );
@@ -319,6 +334,9 @@ void MainWindow::ftpCommandFinished(int, bool error)
 
 void MainWindow::addToList(const QUrlInfo &urlInfo)
 {
+    setCursor( Qt::ArrowCursor );
+    ui->messageGroupBox->setEnabled( true );
+
     QTreeWidgetItem *item = new QTreeWidgetItem;
 
     if( urlInfo.name().contains( "_schedule_", Qt::CaseInsensitive ) &&
@@ -390,9 +408,9 @@ void MainWindow::processItem(QTreeWidgetItem *item, int column)
 {
     if( item->text( 0 ) == ".." )
     {
-#ifndef QT_NO_CURSOR
+
         setCursor(Qt::WaitCursor);
-#endif
+        ui->messageGroupBox->setEnabled( false );
        ui->messageTreeWidget->clear();
         isDirectory.clear();
         currentPath = currentPath.left(currentPath.lastIndexOf('/'));
@@ -412,6 +430,8 @@ void MainWindow::processItem(QTreeWidgetItem *item, int column)
 
     QString name = item->text(0);
     if (isDirectory.value(name)) {
+        setCursor(Qt::WaitCursor);
+        ui->messageGroupBox->setEnabled( false );
         isDirectory.clear();
         currentPath += '/';
         currentPath += name;
@@ -695,8 +715,9 @@ void MainWindow::eventMsg( bool clicked )
 
 void MainWindow::easGetTime( bool clicked )
 {
-    ui->messageGroupBox->setEnabled( false );
     setCursor(Qt::WaitCursor);
+    ui->messageGroupBox->setEnabled( false );
+
 
     QDate date = QDate::currentDate();
     QTime time = QTime::currentTime();
