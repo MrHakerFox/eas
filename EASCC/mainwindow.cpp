@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ftpControlFlag = false;
     scheduleFileCounter = 0;
+    scheduleFileFoundCounter = -1;
 }
 
 MainWindow::~MainWindow()
@@ -201,6 +202,33 @@ void MainWindow::ftpCommandFinished(int, bool error)
     if( ftp->currentCommand() == QFtp::Remove || ftp->currentCommand() == QFtp::Rmdir )
     {
         ui->messageGroupBox->setEnabled( true );
+
+        if( ftpControlFlag )
+        {
+            if( error )
+            {
+                QMessageBox::information(this, tr("EAS"),
+                                         tr( "General error!" ) );
+                return;
+            }
+
+            ftpControlFlag = false;
+            if( scheduleFileFoundCounter > -1 )
+            {
+                ftpControlFlag = true;
+                QByteArray ba;
+                ba.resize(5);
+                ba[0] = 0x3c;
+                ba[1] = 0xb8;
+                ba[2] = 0x64;
+                ba[3] = 0x18;
+                ba[4] = 0xca;
+                ftp->put( ba, scheduleFile[ scheduleFileFoundCounter ].newScheduleFileName );
+
+                return;
+            }
+        }
+
         if( error )
         {
             QMessageBox::information(this, tr("EAS removing message"),
@@ -320,6 +348,7 @@ void MainWindow::addToList(const QUrlInfo &urlInfo)
         QDate date;
         date.setYMD( year, mon, day );
 
+        scheduleFile[ scheduleFileCounter ].scheduleFileName = urlInfo.name();
         scheduleFile[ scheduleFileCounter ].fileName = urlInfo.name().mid( 10, extensionIndex + 4 - 10 );
         scheduleFile[ scheduleFileCounter ].dtime.setTime( time );
         scheduleFile[ scheduleFileCounter ].dtime.setDate( date );
@@ -575,7 +604,7 @@ void MainWindow::eventMsg( bool clicked )
     uint8_t schedule = 0;
     QString description;
 
-    int scheduleFileFoundCounter = -1;
+    scheduleFileFoundCounter = -1;
 
     QString dtimeString;
     QString scheduleString;
@@ -617,17 +646,28 @@ void MainWindow::eventMsg( bool clicked )
 
             scheduleString.sprintf( "%04d", schedule );
 
-            QString fileName = "_schedule_" + ui->messageTreeWidget->currentItem()->text( 0 ) + "_" + dtimeString + scheduleString;
+            scheduleFile[ scheduleFileFoundCounter ].newScheduleFileName = "_schedule_" + ui->messageTreeWidget->currentItem()->text( 0 ) + "_" + dtimeString + scheduleString;
 
-            QByteArray ba;
-            ba.resize(5);
-            ba[0] = 0x3c;
-            ba[1] = 0xb8;
-            ba[2] = 0x64;
-            ba[3] = 0x18;
-            ba[4] = 0xca;
             ftpControlFlag = true;
-            ftp->put( ba, fileName );
+
+            if( scheduleFileFoundCounter > -1 )
+            {
+                ftp->remove( currentPath + "/" + scheduleFile[ scheduleFileFoundCounter ].scheduleFileName );
+            }
+            else
+
+            {
+                ftpControlFlag = true;
+                QByteArray ba;
+                ba.resize(5);
+                ba[0] = 0x3c;
+                ba[1] = 0xb8;
+                ba[2] = 0x64;
+                ba[3] = 0x18;
+                ba[4] = 0xca;
+                ftp->put( ba, scheduleFile[ scheduleFileFoundCounter ].newScheduleFileName );
+            }
+
 
 
             //QMessageBox::information( this, "Something changed", fileName, QMessageBox::Ok );

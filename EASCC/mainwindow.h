@@ -21,12 +21,16 @@ QT_END_NAMESPACE
 
 struct TScheduleFile
 {
+    QString scheduleFileName;
+    QString newScheduleFileName;
     QString fileName;
     uint8_t byte;
     QDateTime dtime;
 
     TScheduleFile()
     {
+        scheduleFileName = "";
+        newScheduleFileName = "";
         fileName = "";
         byte = 0;
     }
@@ -80,6 +84,7 @@ private:
     QTcpSocket* tcp;
     QString lastSentCmd;
     bool ftpControlFlag;
+    int scheduleFileFoundCounter;
 
     int scheduleFileCounter;
     TScheduleFile scheduleFile[ MAX_SCHEDULE_FILE_NUMBER ];
