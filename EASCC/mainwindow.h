@@ -19,6 +19,23 @@ class QUrlInfo;
 class QNetworkSession;
 QT_END_NAMESPACE
 
+struct TScheduleFile
+{
+    QString fileName;
+    uint8_t byte;
+    QDateTime dtime;
+
+    TScheduleFile()
+    {
+        fileName = "";
+        byte = 0;
+    }
+};
+
+
+#define MAX_SCHEDULE_FILE_NUMBER    20
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -26,6 +43,9 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
+public:
+
 
 private slots:
     void isel( bool checked );
@@ -60,6 +80,9 @@ private:
     QTcpSocket* tcp;
     QString lastSentCmd;
     bool ftpControlFlag;
+
+    int scheduleFileCounter;
+    TScheduleFile scheduleFile[ MAX_SCHEDULE_FILE_NUMBER ];
 
     void addParentDir();
 };

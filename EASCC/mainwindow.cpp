@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( tcp, SIGNAL( readyRead() ), this, SLOT( tcpReadyRead() ) );
 
     ftpControlFlag = false;
+    scheduleFileCounter = 0;
 }
 
 MainWindow::~MainWindow()
@@ -174,6 +175,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
 
     if(ftp->currentCommand() == QFtp::Login)
     {
+        scheduleFileCounter = 0;
         ftp->list();
 
         //if( ui->messageTreeWidget->ite)
@@ -192,6 +194,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
             return;
         }
         addParentDir();
+        scheduleFileCounter = 0;
         ftp->list();
     }
 
@@ -206,6 +209,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
         }
 
         addParentDir();
+        scheduleFileCounter = 0;
         ftp->list();
     }
 
@@ -220,6 +224,7 @@ void MainWindow::ftpCommandFinished(int, bool error)
         }
 
         addParentDir();
+        scheduleFileCounter = 0;
         ftp->list();
     }
 
@@ -265,16 +270,18 @@ void MainWindow::ftpCommandFinished(int, bool error)
         }
         else
         {
-            if( ftpControlFlag )
+            if( !ftpControlFlag )
             {
-                ftpControlFlag = false;
-                return;
+                file->close();
+                QMessageBox::information(this, tr("EAS Uploading"),
+                                         tr( "%1 successfully uploaded!" ).arg( file->fileName() ) );
             }
 
-            file->close();
-            QMessageBox::information(this, tr("EAS Uploading"),
-                                     tr( "%1 successfully uploaded!" ).arg( file->fileName() ) );
+            ftpControlFlag = false;
+
+
             addParentDir();
+            scheduleFileCounter = 0;
             ftp->list();
         }
     }
@@ -286,9 +293,38 @@ void MainWindow::addToList(const QUrlInfo &urlInfo)
 {
     QTreeWidgetItem *item = new QTreeWidgetItem;
 
-    if( urlInfo.name().contains( "_schedule_") )
+    if( urlInfo.name().contains( "_schedule_", Qt::CaseInsensitive ) &&
+            ( urlInfo.name().contains( ".mp3", Qt::CaseInsensitive ) || urlInfo.name().contains( ".wav", Qt::CaseInsensitive ) ) )
     {
-       // QMessageBox::information( this, "Something changed", urlInfo.name(), QMessageBox::Ok );
+       //QMessageBox::information( this, "Something changed", urlInfo.name(), QMessageBox::Ok );
+        int extensionIndex;
+
+        if( urlInfo.name().contains( ".mp3", Qt::CaseInsensitive ) )
+        {
+            extensionIndex = urlInfo.name().indexOf( ".mp3", 0, Qt::CaseInsensitive );
+        }
+        else
+        {
+            extensionIndex = urlInfo.name().indexOf( ".wav", 0, Qt::CaseInsensitive );
+        }
+
+        int hour = urlInfo.name().mid( extensionIndex + 5, 2 ).toInt();
+        int min = urlInfo.name().mid( extensionIndex + 8, 2 ).toInt();
+
+        int day = urlInfo.name().mid( extensionIndex + 14, 2 ).toInt();
+        int mon = urlInfo.name().mid( extensionIndex + 17, 2 ).toInt();
+        int year = urlInfo.name().mid( extensionIndex + 20, 4 ).toInt();
+
+        QTime time;
+        time.setHMS( hour, min, 0 );
+        QDate date;
+        date.setYMD( year, mon, day );
+
+        scheduleFile[ scheduleFileCounter ].fileName = urlInfo.name().mid( 10, extensionIndex + 4 - 10 );
+        scheduleFile[ scheduleFileCounter ].dtime.setTime( time );
+        scheduleFile[ scheduleFileCounter ].dtime.setDate( date );
+        scheduleFile[ scheduleFileCounter ].byte = urlInfo.name().mid( extensionIndex + 25, 4 ).toInt();
+        scheduleFileCounter++;
     }
 
     if( !urlInfo.isDir() )
@@ -340,6 +376,7 @@ void MainWindow::processItem(QTreeWidgetItem *item, int column)
         } else {
             ftp->cd(currentPath);
         }
+        scheduleFileCounter = 0;
         ftp->list();
         return;
     }
@@ -353,6 +390,7 @@ void MainWindow::processItem(QTreeWidgetItem *item, int column)
         addParentDir();
 
         ftp->cd(name);
+        scheduleFileCounter = 0;
         ftp->list();
 
 #ifndef QT_NO_CURSOR
@@ -526,6 +564,7 @@ void MainWindow::addParentDir()
 
 void MainWindow::descriptionMsg( bool blicked )
 {
+    QMessageBox::information( this, "Something changed", QString( "Counter %1" ).arg( scheduleFileCounter ), QMessageBox::Ok );
 }
 
 
@@ -533,8 +572,10 @@ void MainWindow::descriptionMsg( bool blicked )
 void MainWindow::eventMsg( bool clicked )
 {
     QDateTime dtime;
-    uint8_t schedule;
+    uint8_t schedule = 0;
     QString description;
+
+    int scheduleFileFoundCounter = -1;
 
     QString dtimeString;
     QString scheduleString;
@@ -542,13 +583,30 @@ void MainWindow::eventMsg( bool clicked )
     QTime time;
     QDate date;
 
-    time.setHMS( 17, 33, 10 );
-    date.setYMD( 2015, 1, 8 );
+    //time.setHMS( 17, 33, 10 );
+    //date.setYMD( 2015, 1, 8 );
 
-    dtime.setTime( time );
-    dtime.setDate( date );
 
-    FMsgEventDialog* dlg = new FMsgEventDialog( 0, ui->messageTreeWidget->currentItem()->text( 0 ), 1 << 7 | 1 << 5 | 1 << 0, "no descr", dtime );
+
+    for( int i = 0; i < scheduleFileCounter; i++ )
+    {
+        if( scheduleFile[ i ].fileName == ui->messageTreeWidget->currentItem()->text( 0 ) )
+        {
+            scheduleFileFoundCounter = i;
+            break;
+        }
+    }
+
+    if( scheduleFileFoundCounter > -1 )
+    {
+        dtime = scheduleFile[ scheduleFileFoundCounter ].dtime;
+        schedule = scheduleFile[ scheduleFileFoundCounter ].byte;
+    }
+
+    //dtime.setTime( time );
+   // dtime.setDate( date );
+
+    FMsgEventDialog* dlg = new FMsgEventDialog( 0, ui->messageTreeWidget->currentItem()->text( 0 ), schedule, "no descr", dtime );
     if( dlg->exec() == QDialog::Accepted )
     {
         if( dlg->getAttribs( &schedule, &description, &dtime ) )
@@ -557,7 +615,7 @@ void MainWindow::eventMsg( bool clicked )
                                  dtime.time().minute(), dtime.time().second(),
                                  dtime.date().day(), dtime.date().month(), dtime.date().year() );
 
-            scheduleString.sprintf( "%02x", schedule );
+            scheduleString.sprintf( "%04d", schedule );
 
             QString fileName = "_schedule_" + ui->messageTreeWidget->currentItem()->text( 0 ) + "_" + dtimeString + scheduleString;
 
