@@ -164,6 +164,9 @@ void MainWindow::ftpCommandFinished(int, bool error)
             ui->messageGroupBox->setEnabled( false );
             return;
         }
+
+        easGetTime( false );
+
         ui->connMethodGroupBox->setEnabled( false );
         ui->easDateTimeGroupBox->setEnabled( true );
         ui->connectPushButton->setText( tr( "Disconnect" ) );
@@ -183,11 +186,11 @@ void MainWindow::ftpCommandFinished(int, bool error)
        // ui->eventPushButton->setEnabled( ui->messageTreeWidget->currentItem()->text( 0 ) != ".." && !isDirectory.value( ui->messageTreeWidget->currentItem()->text( 0 ) ) );
     }
 
-    if( ftp->currentCommand() == QFtp::List )
-    {
-        easGetTime( false );
-        return;
-    }
+    //if( ftp->currentCommand() == QFtp::List )
+    //{
+        //easGetTime( false );
+      //  return;
+   // }
 
     if( ftp->currentCommand() == QFtp::Mkdir )
     {
