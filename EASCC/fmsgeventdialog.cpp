@@ -26,13 +26,13 @@ FMsgEventDialog::FMsgEventDialog(QWidget *parent, QString fileName, uint8_t sche
     ui->byTimerCheckBox->setChecked( schedule & ( 1 << 0 ) );
     ui->timeGroupBox->setEnabled( schedule & ( 1 << 0 ) );
 
-    ui->monCheckBox->setChecked( schedule & ( 1 << 7 ) );
-    ui->tueCheckBox->setChecked( schedule & ( 1 << 6 ) );
-    ui->wedCheckBox->setChecked( schedule & ( 1 << 5 ) );
+    ui->monCheckBox->setChecked( schedule & ( 1 << 1 ) );
+    ui->tueCheckBox->setChecked( schedule & ( 1 << 2 ) );
+    ui->wedCheckBox->setChecked( schedule & ( 1 << 3 ) );
     ui->thuCheckBox->setChecked( schedule & ( 1 << 4 ) );
-    ui->friCheckBox->setChecked( schedule & ( 1 << 3 ) );
-    ui->satCheckBox->setChecked( schedule & ( 1 << 2 ) );
-    ui->sunCheckBox->setChecked( schedule & ( 1 << 1 ) );
+    ui->friCheckBox->setChecked( schedule & ( 1 << 5 ) );
+    ui->satCheckBox->setChecked( schedule & ( 1 << 6 ) );
+    ui->sunCheckBox->setChecked( schedule & ( 1 << 7 ) );
 
     ui->msgNameLabel->setText( fileName );
     ui->msgDescriptioLabel->setText( description );
@@ -55,17 +55,17 @@ bool FMsgEventDialog::getAttribs( uint8_t* schedule, QString* description, QDate
 
     if( ui->monCheckBox->isChecked() )
     {
-        lSchedule |= ( 1 << 7 );
+        lSchedule |= ( 1 << 1 );
     }
 
     if( ui->tueCheckBox->isChecked() )
     {
-        lSchedule |= ( 1 << 6 );
+        lSchedule |= ( 1 << 2 );
     }
 
     if( ui->wedCheckBox->isChecked() )
     {
-        lSchedule |= ( 1 << 5 );
+        lSchedule |= ( 1 << 3 );
     }
 
     if( ui->thuCheckBox->isChecked() )
@@ -75,17 +75,17 @@ bool FMsgEventDialog::getAttribs( uint8_t* schedule, QString* description, QDate
 
     if( ui->friCheckBox->isChecked() )
     {
-        lSchedule |= ( 1 << 3 );
+        lSchedule |= ( 1 << 5 );
     }
 
     if( ui->satCheckBox->isChecked() )
     {
-        lSchedule |= ( 1 << 2 );
+        lSchedule |= ( 1 << 6 );
     }
 
     if( ui->sunCheckBox->isChecked() )
     {
-        lSchedule |= ( 1 << 1 );
+        lSchedule |= ( 1 << 7 );
     }
 
     lDateTime = ui->dateTimeEdit->dateTime();
